@@ -1,0 +1,44 @@
+# Namespace the service discovery agent runs in. The management Role,
+# RoleBinding and (optionally) ServiceAccount are created here.
+# Defaults to the Helm release namespace.
+agentNamespace: ""
+
+# Optionally create the agent namespace.
+namespace:
+  create: false
+  labels: {}
+  annotations: {}
+
+serviceAccount:
+  # When true the chart creates the ServiceAccount. Set to false when the
+  # service account already exists and is managed outside this chart.
+  create: true
+  # Name of the ServiceAccount the agent pods will run as. Must match the
+  # agent's `kubernetes.serviceAccount` configuration. When empty and
+  # create=true, defaults to the release fullname.
+  name: ""
+  annotations: {}
+  labels: {}
+
+discovery:
+  # cluster:    bind the view ClusterRole via a ClusterRoleBinding
+  #             (agent discovers resources cluster-wide).
+  # namespaced: bind the view ClusterRole via a RoleBinding in each of
+  #             `discovery.namespaces` (least-privilege multi-namespace
+  #             discovery, no cluster-wide grants).
+  scope: cluster
+  # Target namespaces for namespaced scope. Ignored when scope=cluster.
+  namespaces: []
+
+rbac:
+  # Extra rules appended to the view ClusterRole.
+  extraClusterRoleRules: []
+  # Extra rules appended to the management Role in the agent namespace.
+  extraRoleRules: []
+
+# Labels/annotations applied to every resource rendered by the chart.
+commonLabels: {}
+commonAnnotations: {}
+
+nameOverride: ""
+fullnameOverride: ""
