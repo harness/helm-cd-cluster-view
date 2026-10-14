@@ -1,0 +1,8 @@
+apiVersion: v2
+name: service-discovery-agent
+description: RBAC and ServiceAccount for the Harness service discovery agent.
+  Use this chart when the agent is deployed with a custom (pre-provisioned)
+  service account and the server-side manifest must not create RBAC.
+type: application
+version: 0.1.0
+appVersion: "0.10.0"

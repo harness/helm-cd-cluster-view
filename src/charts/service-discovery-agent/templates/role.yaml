@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "service-discovery-agent.fullname" . }}-mgmt
+  namespace: {{ include "service-discovery-agent.agentNamespace" . }}
+  labels:
+    {{- include "service-discovery-agent.labels" . | nindent 4 }}
+  {{- if .Values.commonAnnotations }}
+  annotations:
+    {{- toYaml .Values.commonAnnotations | nindent 4 }}
+  {{- end }}
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "secrets", "configmaps"]
+    verbs: ["create", "delete", "get", "list", "patch", "update", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
+  {{- with .Values.rbac.extraRoleRules }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
